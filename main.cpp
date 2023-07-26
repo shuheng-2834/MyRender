@@ -1,6 +1,6 @@
-#include "color.h"
-#include "vec3.h"
-#include "ray.h"
+#include "rtweekend.h"
+#include "hittable_list.h"
+#include "sphere.h"
 
 #include <iostream>
 
@@ -14,19 +14,19 @@ double hit_sphere(const vec3 &center, double radius, const ray &r)
     // 计算光线到球心的向量
     vec3 oc = r.origin() - center;
     // 计算光线与光线的点乘
-    auto a = dot(r.direction(), r.direction());
+    auto a = r.direction().length_squared();
     // 计算光线与球心的点乘，两倍
-    auto b = 2.0 * dot(oc, r.direction());
+    auto half_b = dot(oc, r.direction());
     // 计算光线与球心的点乘，减去半径的平方
-    auto c = dot(oc, oc) - radius * radius;
-    auto discriminant = b * b - 4 * a * c;
+    auto c = oc.length_squared() - radius * radius;
+    auto discriminant = half_b * half_b - a * c;
     if (discriminant < 0)
     {
         return -1.0;
     }
     else
     {
-        return (-b - sqrt(discriminant)) / (2.0 * a);
+        return (-half_b - sqrt(discriminant)) / a;
     }
 }
 
