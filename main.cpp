@@ -1,6 +1,7 @@
 #include "rtweekend.h"
 #include "hittable_list.h"
 #include "sphere.h"
+#include "color.h"
 
 #include <iostream>
 
