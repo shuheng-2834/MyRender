@@ -8,7 +8,7 @@
 /// @param center 球心
 /// @param radius 半径
 /// @param r 光线
-/// @return 是否击中
+/// @return 被击中球体的T值，距离光线起点的距离，如果没有击中，则返回-1
 double hit_sphere(const vec3 &center, double radius, const ray &r)
 {
     // 计算光线到球心的向量
@@ -32,10 +32,13 @@ double hit_sphere(const vec3 &center, double radius, const ray &r)
 
 vec3 ray_color(const ray &r)
 {
+    // 返回被击中的球体的t值，距离光线起点的距离，
     auto t = hit_sphere(vec3(0, 0, -1), 0.5, r);
     if (t > 0)
     {
+        // 计算与球体交点处的球面法向量
         vec3 n = unit_vector(r.at(t) - vec3(0, 0, -1));
+        // 返回交点处的颜色，我们将向量的每个分量都映射到[0，1]的范围，然后乘以0.5,最后的颜色范围将在[0,0.5]
         return 0.5 * vec3(n.x() + 1, n.y() + 1, n.z() + 1);
     }
     // 获取单位向量
